@@ -1,7 +1,7 @@
-import { Router } from 'express'
+import { Router, type Router as ExpressRouter } from 'express'
 import { prisma } from '../lib/prisma.js'
 
-const router = Router()
+const router: ExpressRouter = Router()
 
 // 查询报告 (公众接口)
 router.get('/reports/:reportNumber', async (req, res) => {

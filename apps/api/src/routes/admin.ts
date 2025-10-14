@@ -1,9 +1,9 @@
-import { Router } from 'express'
+import { Router, type Router as ExpressRouter } from 'express'
 import { authMiddleware } from '../middleware/auth.js'
 import { prisma } from '../lib/prisma.js'
 import { upload } from '../middleware/upload.js'
 
-const router = Router()
+const router: ExpressRouter = Router()
 
 // 获取统计数据
 router.get('/admin/stats', authMiddleware, async (req, res) => {

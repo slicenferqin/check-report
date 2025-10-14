@@ -1,9 +1,9 @@
-import { Router } from 'express'
+import { Router, type Router as ExpressRouter } from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { prisma } from '../lib/prisma.js'
 
-const router = Router()
+const router: ExpressRouter = Router()
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key'
 
 // 管理员登录
