@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { Form, Input, Select, DatePicker, Upload, Button, message, Card, Space } from 'antd'
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons'
-import type { UploadFile } from 'antd/es/upload/interface'
+import { InboxOutlined } from '@ant-design/icons'
+import type { UploadFile, RcFile } from 'antd/es/upload/interface'
 import { adminApi } from '../../services/api'
 import { useNavigate } from 'react-router-dom'
-import dayjs from 'dayjs'
 
 const { Dragger } = Upload
 
@@ -84,7 +83,7 @@ export const UploadPage = () => {
         uid: '-1',
         name: file.name,
         status: 'done',
-        originFileObj: file
+        originFileObj: file as RcFile
       }])
       return false // 阻止自动上传
     },

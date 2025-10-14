@@ -43,9 +43,9 @@ export const ReportsListPage = () => {
     navigate(`/reports/${record.reportNumber}`)
   }
 
-  const handleEdit = (record: any) => {
+  const handleEdit = (_record: any) => {
     message.info('编辑功能开发中...')
-    // navigate(`/admin/reports/${record.id}/edit`)
+    // navigate(`/admin/reports/${_record.id}/edit`)
   }
 
   const handleDelete = (record: any) => {
