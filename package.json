@@ -1,10 +1,20 @@
 {
-  "name": "checkReport",
+  "name": "check-report",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "检测报告在线查询系统",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:web": "pnpm --filter web dev",
+    "dev:api": "pnpm --filter api dev",
+    "dev": "pnpm run dev:api & pnpm run dev:web",
+    "build": "pnpm --filter api build && pnpm --filter web build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
-  "private": true
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.3.0"
+  }
 }

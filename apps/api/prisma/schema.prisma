@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum ReportType {
+  INSPECTION_CERT
+  INSTALLATION_INSPECTION
+}
+
+enum FileType {
+  PDF
+  JPG
+  PNG
+}
+
+model Report {
+  id             Int        @id @default(autoincrement()) @db.UnsignedInt
+  reportNumber   String     @unique @map("report_number") @db.VarChar(50)
+  reportType     ReportType @map("report_type")
+  inspectionDate DateTime   @map("inspection_date") @db.Date
+  equipmentName  String     @map("equipment_name") @db.VarChar(200)
+  clientCompany  String     @map("client_company") @db.VarChar(200)
+  userCompany    String     @map("user_company") @db.VarChar(200)
+  fileUrl        String     @map("file_url") @db.VarChar(500)
+  fileType       FileType   @map("file_type")
+  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  @@index([reportNumber], map: "uk_report_number")
+  @@index([inspectionDate], map: "idx_inspection_date")
+  @@index([createdAt], map: "idx_created_at")
+  @@map("reports")
+}
+
+model Admin {
+  id           Int      @id @default(autoincrement()) @db.UnsignedInt
+  username     String   @unique @db.VarChar(50)
+  passwordHash String   @map("password_hash") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+
+  @@index([username], map: "uk_username")
+  @@map("admins")
+}
