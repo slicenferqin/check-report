@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { Table, Button, Space, message, Modal, Tag } from 'antd'
 import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
@@ -35,22 +35,22 @@ export const ReportsListPage = () => {
     fetchReports()
   }, [])
 
-  const handleTableChange = (newPagination: any) => {
+  const handleTableChange = useCallback((newPagination: any) => {
     fetchReports(newPagination.current, newPagination.pageSize)
-  }
+  }, [])
 
-  const handleView = (record: any) => {
+  const handleView = useCallback((record: any) => {
     navigate(`/reports/${record.reportNumber}`)
-  }
+  }, [navigate])
 
-  const handleEdit = (record: any) => {
+  const handleEdit = useCallback((record: any) => {
     console.log('编辑报告:', record)
     message.info('编辑功能开发中,敬请期待')
     // TODO: 实现编辑页面后启用
     // navigate(`/admin/reports/${record.id}/edit`)
-  }
+  }, [])
 
-  const handleDelete = (record: any) => {
+  const handleDelete = useCallback((record: any) => {
     console.log('删除报告:', record)
     Modal.confirm({
       title: '确认删除',
@@ -72,16 +72,16 @@ export const ReportsListPage = () => {
         }
       }
     })
-  }
+  }, [pagination.current, pagination.pageSize])
 
-  const getReportTypeTag = (type: string) => {
+  const getReportTypeTag = useCallback((type: string) => {
     if (type === 'INSPECTION_CERT') {
       return <Tag color="blue">检测合格证</Tag>
     }
     return <Tag color="green">安装委托检验</Tag>
-  }
+  }, [])
 
-  const columns = [
+  const columns = useMemo(() => [
     {
       title: '报告编号',
       dataIndex: 'reportNumber',
@@ -157,7 +157,7 @@ export const ReportsListPage = () => {
         </Space>
       )
     }
-  ]
+  ], [handleView, handleEdit, handleDelete, getReportTypeTag])
 
   return (
     <div>
