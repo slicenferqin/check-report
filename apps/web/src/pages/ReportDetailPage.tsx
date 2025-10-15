@@ -27,19 +27,33 @@ export const ReportDetailPage = () => {
     loadReport()
   }, [reportNumber, navigate])
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (!report) return
-    const API_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:3001'
-    const fileUrl = `${API_URL}/uploads/${report.fileUrl}`
-    const fileName = `${report.reportNumber}.${report.fileType.toLowerCase()}`
 
-    const link = document.createElement('a')
-    link.href = fileUrl
-    link.download = fileName
-    link.target = '_blank'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    try {
+      const API_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:3001'
+      const fileUrl = `${API_URL}/uploads/${report.fileUrl}`
+
+      // 先检查文件是否存在
+      const response = await fetch(fileUrl, { method: 'HEAD' })
+      if (!response.ok) {
+        message.error('报告文件不存在或已被删除,请联系管理员')
+        return
+      }
+
+      const fileName = `${report.reportNumber}.${report.fileType.toLowerCase()}`
+      const link = document.createElement('a')
+      link.href = fileUrl
+      link.download = fileName
+      link.target = '_blank'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      message.success('开始下载报告文件')
+    } catch (error) {
+      console.error('下载报告失败:', error)
+      message.error('下载失败,请稍后重试')
+    }
   }
 
   const getReportTypeText = (type: string) => {
@@ -89,31 +103,6 @@ export const ReportDetailPage = () => {
             <Descriptions.Item label="委托单位">{report.clientCompany}</Descriptions.Item>
             <Descriptions.Item label="使用单位">{report.userCompany}</Descriptions.Item>
           </Descriptions>
-
-          <div className="mt-8 p-4 bg-gray-100 rounded-lg">
-            <h3 className="text-lg font-semibold mb-4">报告文件预览</h3>
-            {report.fileType === 'PDF' ? (
-              <div className="bg-white p-4 rounded text-center">
-                <p className="text-gray-600 mb-4">
-                  PDF 文件预览功能开发中...
-                </p>
-                <p className="text-sm text-gray-500">
-                  文件路径: {report.fileUrl}
-                </p>
-              </div>
-            ) : (
-              <div className="bg-white p-4 rounded">
-                <img
-                  src={`${import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:3001'}/uploads/${report.fileUrl}`}
-                  alt="报告扫描件"
-                  className="max-w-full h-auto mx-auto"
-                  onError={(e) => {
-                    e.currentTarget.src = '/placeholder.png'
-                  }}
-                />
-              </div>
-            )}
-          </div>
 
           <div className="mt-6 flex gap-4 justify-center">
             <Button

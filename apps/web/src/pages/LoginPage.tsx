@@ -90,10 +90,6 @@ export const LoginPage = () => {
             </div>
           </Form>
         </Card>
-
-        <div className="text-center mt-4 text-sm text-gray-500">
-          <p>默认账号: admin / Admin@123</p>
-        </div>
       </div>
     </div>
   )

@@ -38,8 +38,14 @@ export const HomePage = () => {
       const report = await reportApi.queryReport(reportNumber.trim())
       navigate(`/reports/${reportNumber}`, { state: { report } })
     } catch (error: any) {
+      console.error('查询报告失败:', error)
       if (error.response?.status === 404) {
-        message.error('未找到该报告,请确认报告编号是否正确')
+        const errorMsg = error.response?.data?.error || '未找到该报告,请确认报告编号是否正确'
+        message.error(errorMsg)
+      } else if (error.response?.data?.error) {
+        message.error(error.response.data.error)
+      } else if (error.code === 'ERR_NETWORK') {
+        message.error('网络连接失败,请检查网络后重试')
       } else {
         message.error('查询失败,请稍后重试')
       }

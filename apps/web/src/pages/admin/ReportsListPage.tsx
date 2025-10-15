@@ -43,12 +43,15 @@ export const ReportsListPage = () => {
     navigate(`/reports/${record.reportNumber}`)
   }
 
-  const handleEdit = (_record: any) => {
-    message.info('编辑功能开发中...')
-    // navigate(`/admin/reports/${_record.id}/edit`)
+  const handleEdit = (record: any) => {
+    console.log('编辑报告:', record)
+    message.info('编辑功能开发中,敬请期待')
+    // TODO: 实现编辑页面后启用
+    // navigate(`/admin/reports/${record.id}/edit`)
   }
 
   const handleDelete = (record: any) => {
+    console.log('删除报告:', record)
     Modal.confirm({
       title: '确认删除',
       content: `确定要删除报告 "${record.reportNumber}" 吗?删除后无法恢复`,
@@ -57,11 +60,15 @@ export const ReportsListPage = () => {
       cancelText: '取消',
       onOk: async () => {
         try {
+          console.log('调用删除API, ID:', record.id)
           await adminApi.deleteReport(record.id)
           message.success('报告删除成功')
-          fetchReports(pagination.current, pagination.pageSize)
-        } catch (error) {
-          message.error('删除失败,请稍后重试')
+          // 重新加载当前页数据
+          await fetchReports(pagination.current, pagination.pageSize)
+        } catch (error: any) {
+          console.error('删除报告失败:', error)
+          const errorMsg = error.response?.data?.error || '删除失败,请稍后重试'
+          message.error(errorMsg)
         }
       }
     })
