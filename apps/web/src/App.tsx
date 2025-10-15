@@ -7,6 +7,7 @@ import { LoginPage } from './pages/LoginPage'
 import { DashboardPage } from './pages/admin/DashboardPage'
 import { ReportsListPage } from './pages/admin/ReportsListPage'
 import { UploadPage } from './pages/admin/UploadPage'
+import { EditReportPage } from './pages/admin/EditReportPage'
 import { AdminLayout } from './layouts/AdminLayout'
 import { ProtectedRoute } from './components/ProtectedRoute'
 
@@ -32,6 +33,7 @@ function App() {
             >
               <Route index element={<DashboardPage />} />
               <Route path="reports" element={<ReportsListPage />} />
+              <Route path="reports/:id/edit" element={<EditReportPage />} />
               <Route path="upload" element={<UploadPage />} />
             </Route>
 

@@ -46,10 +46,8 @@ export const ReportsListPage = () => {
 
   const handleEdit = useCallback((record: any) => {
     console.log('编辑报告:', record)
-    message.info('编辑功能开发中,敬请期待')
-    // TODO: 实现编辑页面后启用
-    // navigate(`/admin/reports/${record.id}/edit`)
-  }, [])
+    navigate(`/admin/reports/${record.id}/edit`)
+  }, [navigate])
 
   const handleDelete = useCallback((record: any) => {
     console.log('删除报告:', record)
