@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Form, Input, Select, DatePicker, Upload, Button, message, Card, Space } from 'antd'
+import { Form, Input, Select, DatePicker, Upload, Button, App, Card, Space } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import type { UploadFile, RcFile } from 'antd/es/upload/interface'
 import { adminApi } from '../../services/api'
@@ -12,6 +12,7 @@ export const UploadPage = () => {
   const [loading, setLoading] = useState(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const navigate = useNavigate()
+  const { message } = App.useApp()
 
   const handleSubmit = async (values: any) => {
     if (fileList.length === 0) {

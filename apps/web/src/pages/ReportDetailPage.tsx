@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Card, Descriptions, Button, Spin, message } from 'antd'
+import { Card, Descriptions, Button, Spin, App } from 'antd'
 import { DownloadOutlined, HomeOutlined } from '@ant-design/icons'
 import { reportApi } from '../services/api'
 
@@ -9,6 +9,7 @@ export const ReportDetailPage = () => {
   const navigate = useNavigate()
   const [report, setReport] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const { message } = App.useApp()
 
   useEffect(() => {
     const loadReport = async () => {

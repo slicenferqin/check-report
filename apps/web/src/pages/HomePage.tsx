@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Input, Button, message } from 'antd'
+import { Input, Button, App } from 'antd'
 import {
   SearchOutlined,
   SafetyCertificateOutlined,
@@ -26,6 +26,7 @@ export const HomePage = () => {
   const [reportNumber, setReportNumber] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const { message } = App.useApp()
 
   const handleSearch = async () => {
     if (!reportNumber.trim()) {

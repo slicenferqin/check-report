@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
-import { Table, Button, Space, message, Modal, Tag } from 'antd'
+import { Table, Button, Space, App, Tag } from 'antd'
 import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { adminApi } from '../../services/api'
@@ -13,6 +13,7 @@ export const ReportsListPage = () => {
     total: 0
   })
   const navigate = useNavigate()
+  const { message, modal } = App.useApp()
 
   const fetchReports = async (page = 1, limit = 20) => {
     setLoading(true)
@@ -52,7 +53,7 @@ export const ReportsListPage = () => {
 
   const handleDelete = useCallback((record: any) => {
     console.log('删除报告:', record)
-    Modal.confirm({
+    modal.confirm({
       title: '确认删除',
       content: `确定要删除报告 "${record.reportNumber}" 吗?删除后无法恢复`,
       okText: '确定',
@@ -72,7 +73,7 @@ export const ReportsListPage = () => {
         }
       }
     })
-  }, [pagination.current, pagination.pageSize])
+  }, [modal, message, pagination.current, pagination.pageSize])
 
   const getReportTypeTag = useCallback((type: string) => {
     if (type === 'INSPECTION_CERT') {
