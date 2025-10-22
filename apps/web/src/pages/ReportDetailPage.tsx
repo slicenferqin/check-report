@@ -32,8 +32,9 @@ export const ReportDetailPage = () => {
     if (!report) return
 
     try {
-      const API_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:3001'
-      const fileUrl = `${API_URL}/uploads/${report.fileUrl}`
+      // 使用相对路径，避免跨域问题
+      // 如果前后端部署在同一域名下，直接使用相对路径
+      const fileUrl = `/uploads/${report.fileUrl}`
 
       // 先检查文件是否存在
       const response = await fetch(fileUrl, { method: 'HEAD' })
