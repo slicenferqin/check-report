@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Card, Descriptions, Button, Spin, App } from 'antd'
-import { DownloadOutlined, HomeOutlined } from '@ant-design/icons'
+import { DownloadOutlined, HomeOutlined, EyeOutlined } from '@ant-design/icons'
 import { reportApi } from '../services/api'
+import { FilePreview } from '../components/FilePreview'
 
 export const ReportDetailPage = () => {
   const { reportNumber } = useParams()
   const navigate = useNavigate()
   const [report, setReport] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [previewVisible, setPreviewVisible] = useState(false)
   const { message } = App.useApp()
 
   useEffect(() => {
@@ -27,6 +29,10 @@ export const ReportDetailPage = () => {
     }
     loadReport()
   }, [reportNumber, navigate])
+
+  const handlePreview = () => {
+    setPreviewVisible(true)
+  }
 
   const handleDownload = async () => {
     if (!report) return
@@ -110,6 +116,13 @@ export const ReportDetailPage = () => {
             <Button
               type="primary"
               size="large"
+              icon={<EyeOutlined />}
+              onClick={handlePreview}
+            >
+              预览报告
+            </Button>
+            <Button
+              size="large"
               icon={<DownloadOutlined />}
               onClick={handleDownload}
             >
@@ -124,6 +137,17 @@ export const ReportDetailPage = () => {
             </Button>
           </div>
         </Card>
+
+        {/* 文件预览组件 */}
+        {report && (
+          <FilePreview
+            fileUrl={`/uploads/${report.fileUrl}`}
+            fileType={report.fileType}
+            fileName={`${report.reportNumber}.${report.fileType.toLowerCase()}`}
+            visible={previewVisible}
+            onClose={() => setPreviewVisible(false)}
+          />
+        )}
       </div>
     </div>
   )

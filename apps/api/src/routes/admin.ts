@@ -224,12 +224,22 @@ router.post('/admin/upload', authMiddleware, upload.single('file'), (req, res) =
     const relativePath = req.file.path.replace(process.cwd() + '/uploads/', '')
 
     // 判断文件类型
-    let fileType: 'PDF' | 'JPG' | 'PNG' = 'PDF'
+    let fileType: 'PDF' | 'JPG' | 'PNG' | 'DOCX' | 'DOC' | 'XLSX' | 'XLS' = 'PDF'
     const ext = req.file.mimetype
+    const originalName = req.file.originalname.toLowerCase()
+
     if (ext.includes('jpeg') || ext.includes('jpg')) {
       fileType = 'JPG'
     } else if (ext.includes('png')) {
       fileType = 'PNG'
+    } else if (ext.includes('wordprocessingml') || originalName.endsWith('.docx')) {
+      fileType = 'DOCX'
+    } else if (ext.includes('msword') || originalName.endsWith('.doc')) {
+      fileType = 'DOC'
+    } else if (ext.includes('spreadsheetml') || originalName.endsWith('.xlsx')) {
+      fileType = 'XLSX'
+    } else if (ext.includes('ms-excel') || originalName.endsWith('.xls')) {
+      fileType = 'XLS'
     }
 
     res.status(200).json({
