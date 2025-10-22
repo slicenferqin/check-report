@@ -76,13 +76,6 @@ export const HomePage = () => {
                 <p className="text-xs text-gray-400 mt-0.5">专业检测 · 权威认证</p>
               </div>
             </div>
-            <a
-              href="/admin/login"
-              className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 rounded-lg transition-all duration-200"
-            >
-              <span>管理后台</span>
-              <span>→</span>
-            </a>
           </div>
         </div>
       </header>
