@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Card, Descriptions, Button, Spin, App } from 'antd'
-import { DownloadOutlined, HomeOutlined, EyeOutlined } from '@ant-design/icons'
+import { DownloadOutlined, HomeOutlined } from '@ant-design/icons'
 import { reportApi } from '../services/api'
-import { FilePreview } from '../components/FilePreview'
+import { InlineFilePreview } from '../components/InlineFilePreview'
 
 export const ReportDetailPage = () => {
   const { reportNumber } = useParams()
   const navigate = useNavigate()
   const [report, setReport] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const [previewVisible, setPreviewVisible] = useState(false)
   const { message } = App.useApp()
 
   useEffect(() => {
@@ -29,10 +28,6 @@ export const ReportDetailPage = () => {
     }
     loadReport()
   }, [reportNumber, navigate])
-
-  const handlePreview = () => {
-    setPreviewVisible(true)
-  }
 
   const handleDownload = async () => {
     if (!report) return
@@ -91,13 +86,15 @@ export const ReportDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* 报告信息卡片 */}
         <Card
           title={
             <div className="text-2xl font-bold">
               报告详情 - {report.reportNumber}
             </div>
           }
+          className="mb-6"
         >
           <Descriptions bordered column={{ xs: 1, sm: 2 }} size="middle">
             <Descriptions.Item label="报告编号">{report.reportNumber}</Descriptions.Item>
@@ -111,43 +108,35 @@ export const ReportDetailPage = () => {
             <Descriptions.Item label="委托单位">{report.clientCompany}</Descriptions.Item>
             <Descriptions.Item label="使用单位">{report.userCompany}</Descriptions.Item>
           </Descriptions>
-
-          <div className="mt-6 flex gap-4 justify-center">
-            <Button
-              type="primary"
-              size="large"
-              icon={<EyeOutlined />}
-              onClick={handlePreview}
-            >
-              预览报告
-            </Button>
-            <Button
-              size="large"
-              icon={<DownloadOutlined />}
-              onClick={handleDownload}
-            >
-              下载报告
-            </Button>
-            <Button
-              size="large"
-              icon={<HomeOutlined />}
-              onClick={() => navigate('/')}
-            >
-              返回首页
-            </Button>
-          </div>
         </Card>
 
-        {/* 文件预览组件 */}
-        {report && (
-          <FilePreview
+        {/* 文件预览区域 */}
+        <div className="mb-6">
+          <InlineFilePreview
             fileUrl={`/uploads/${report.fileUrl}`}
             fileType={report.fileType}
             fileName={`${report.reportNumber}.${report.fileType.toLowerCase()}`}
-            visible={previewVisible}
-            onClose={() => setPreviewVisible(false)}
           />
-        )}
+        </div>
+
+        {/* 操作按钮 */}
+        <div className="flex gap-4 justify-center pb-8">
+          <Button
+            type="primary"
+            size="large"
+            icon={<DownloadOutlined />}
+            onClick={handleDownload}
+          >
+            下载报告
+          </Button>
+          <Button
+            size="large"
+            icon={<HomeOutlined />}
+            onClick={() => navigate('/')}
+          >
+            返回首页
+          </Button>
+        </div>
       </div>
     </div>
   )

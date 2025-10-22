@@ -14,7 +14,19 @@ export const FilePreview = ({ fileUrl, fileType, fileName, visible, onClose }: F
   const [loading, setLoading] = useState(true)
 
   // 获取完整的文件 URL
-  const fullFileUrl = fileUrl.startsWith('http') ? fileUrl : `${window.location.origin}${fileUrl}`
+  // 使用后端服务地址，避免被前端路由拦截
+  const getFullFileUrl = () => {
+    if (fileUrl.startsWith('http')) {
+      return fileUrl
+    }
+
+    // 使用后端 API 地址（开发环境和生产环境）
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api'
+    const backendUrl = apiBaseUrl.replace('/api', '')
+    return `${backendUrl}${fileUrl}`
+  }
+
+  const fullFileUrl = getFullFileUrl()
 
   // 根据文件类型渲染不同的预览内容
   const renderPreview = () => {
