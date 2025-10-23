@@ -113,7 +113,7 @@ pnpm prisma migrate dev --name init
 
 \`\`\`bash
 pnpm prisma db seed
-# 默认管理员账号: admin / Admin@123
+
 \`\`\`
 
 ### 启动开发服务器
