@@ -379,7 +379,7 @@ export const HomePage = () => {
               <p className="text-gray-500 mb-2">
                 &copy; 2025 {siteConfig.companyName}. All rights reserved.
               </p>
-              <p className="text-gray-600 text-sm">{siteConfig.icp}</p>
+              <p className="text-gray-600 text-sm">{siteConfig.icp} @ <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">{siteConfig.gxb}</a></p>
             </div>
           </div>
         </div>
